@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="mainAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: black; -fx-border-color: white; -fx-border-width: 4;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.vom.GameController">
+    <children>
+        <Pane fx:id="displayPane" prefHeight="720.0" prefWidth="640.0" style="-fx-border-color: white; -fx-border-width: 5;" />
+        <Pane fx:id="convoPane" layoutX="640.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="640.0" style="-fx-border-color: white; -fx-border-width: 5;">
+         <children>
+            <Label fx:id="convoLabel" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="621.0" textAlignment="CENTER" textFill="#cccccc" wrapText="true">
+               <font>
+                  <Font size="36.0" />
+               </font>
+               <padding>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </padding>
+            </Label>
+         </children></Pane>
+        <Pane fx:id="titleScreenPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" visible="false">
+         <children>
+            <Label alignment="CENTER" layoutX="491.0" layoutY="283.0" prefHeight="78.0" prefWidth="321.0" text="phone game" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="48.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="0.12589073634204273" endY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Label>
+            <Button fx:id="startButton" alignment="CENTER" layoutX="594.0" layoutY="328.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="start" textAlignment="CENTER">
+               <font>
+                  <Font name="System Italic" size="36.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="0.22565320665083133" endY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="0.9814814925193787" blue="0.9814814925193787" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Button>
+         </children>
+        </Pane>
+      <Pane fx:id="replyPane" layoutX="640.0" layoutY="360.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="640.0" style="-fx-border-color: white; -fx-border-width: 5;">
+         <children>
+            <Button fx:id="replyButton1" layoutX="36.0" layoutY="23.0" mnemonicParsing="false" prefHeight="150.0" prefWidth="581.0">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Button>
+            <Button fx:id="replyButton2" layoutX="36.0" layoutY="186.0" mnemonicParsing="false" prefHeight="150.0" prefWidth="581.0">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Button>
+         </children></Pane>
+    </children>
+</AnchorPane>
