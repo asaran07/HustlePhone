@@ -32,6 +32,7 @@ public class GameController implements Initializable {
     @FXML private Button replyButton2;
     @FXML private boolean checkForContinue;
 
+    private boolean introFinished = false;
     private final Timeline introTimeline = new Timeline();
     private final Timeline introTextTimeline = new Timeline();
 
@@ -49,8 +50,9 @@ public class GameController implements Initializable {
     }
 
     private void createCharacters() {
-        Character Bob = new Character("Bob", "123");
-
+        Character Mike = new Character("Mike", "123");
+        Mike.getDialogue().addResponse("Hello?", "Heyy Kid!");
+        this.characters.add(Mike);
     }
 
     public Character getActiveCharacter() {
@@ -98,11 +100,6 @@ public class GameController implements Initializable {
         startButton.setOnAction(actionEvent -> {
             startFadeAnimation(titleScreenPane, true, R.speed.NORMAL);
             introTimeline.play();
-        });
-        replyButton1.setOnAction(actionEvent -> {
-            if (checkForContinue) {
-                introTextTimeline.play();
-            }
         });
     }
 
@@ -167,18 +164,31 @@ public class GameController implements Initializable {
                     startFadeAnimation(replyButton2, false, R.speed.NORMAL);
                     checkForContinue = true;
                     introTextTimeline.pause();
+                    replyButton1.setOnAction(actionEvent -> {
+                        if (checkForContinue) {
+                            introTextTimeline.play();
+                        }
+                    });
+                    replyButton2.setOnAction(actionEvent -> {
+                        if (checkForContinue) {
+                            introFinished = true;
+                        }
+                    });
                 }),
 
                 new KeyFrame(Duration.seconds(12.1), e -> {
-                    startTypewriterEffect("smart guy huh");
-                    startFadeAnimation(replyButton1, true, R.speed.SLOW);
-                    startFadeAnimation(replyButton2, true, R.speed.SLOW);
-                }),
+                    if (!introFinished) {
+                        startTypewriterEffect("smart guy huh");
+                        startFadeAnimation(replyButton1, true, R.speed.SLOW);
+                        startFadeAnimation(replyButton2, true, R.speed.SLOW);
+                        new KeyFrame(Duration.seconds(14), f -> {
+                            startTypewriterEffect("not so smart now are you?");
+                            replyButton1.setText("i would like to apologize.");
+                            startFadeAnimation(replyButton1, false, R.speed.SLOW);
+                        });
+                    } else {
 
-                new KeyFrame(Duration.seconds(14), e -> {
-                    startTypewriterEffect("not so smart now are you?");
-                    replyButton1.setText("i would like to apologize.");
-                    startFadeAnimation(replyButton1, false, R.speed.SLOW);
+                    }
                 })
                 );
 
