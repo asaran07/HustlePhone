@@ -13,12 +13,15 @@ import javafx.util.Duration;
 import res.R;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class GameController implements Initializable {
 
+    private List<Character> characters;
+    private Character activeCharacter;
     @FXML private Pane replyPane;
     @FXML private Pane displayPane;
     @FXML private Pane convoPane;
@@ -31,6 +34,32 @@ public class GameController implements Initializable {
 
     private final Timeline introTimeline = new Timeline();
     private final Timeline introTextTimeline = new Timeline();
+
+    public GameController() {
+        this.characters = new ArrayList<>();
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        preparePanes();
+        prepareButtons();
+        initActions();
+        initKeyframes();
+        createCharacters();
+    }
+
+    private void createCharacters() {
+        Character Bob = new Character("Bob", "123");
+
+    }
+
+    public Character getActiveCharacter() {
+        return this.activeCharacter;
+    }
+
+    public void setActiveCharacter(Character character) {
+        this.activeCharacter = character;
+    }
 
     public void toggleNodeVisibility(final Node node) {
         node.setVisible(!node.isVisible());
@@ -77,24 +106,14 @@ public class GameController implements Initializable {
         });
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        preparePanes();
-        prepareButtons();
-        initActions();
-        initKeyframes();
-    }
-
     private void makeInvisible(final Node theNode) {
         theNode.setVisible(true);
         theNode.setOpacity(R.visibility.INVISIBLE);
     }
 
     private void prepareButtons() {
-        replyButton1.setVisible(true);
-        replyButton2.setVisible(true);
-        replyButton1.setOpacity(R.visibility.INVISIBLE);
-        replyButton2.setOpacity(R.visibility.INVISIBLE);
+        makeInvisible(replyButton1);
+        makeInvisible(replyButton2);
     }
 
     private void preparePanes() {
