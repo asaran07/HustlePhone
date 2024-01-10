@@ -32,7 +32,6 @@ public class GameController implements Initializable {
     @FXML private Button replyButton1;
     @FXML private Button replyButton2;
 
-    private DialogFlowManager dialogFlowManager = new DialogFlowManager();
     private final Timeline introTimeline = new Timeline();
 
     public GameController() {
