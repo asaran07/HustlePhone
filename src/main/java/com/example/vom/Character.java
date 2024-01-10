@@ -6,6 +6,7 @@ import java.util.List;
 public class Character {
     private String name;
     private Dialogue dialogue;
+    private ArrayList<Dialogue> dialogues;
     private String phoneNumber;
     private List<String> memory;
 
