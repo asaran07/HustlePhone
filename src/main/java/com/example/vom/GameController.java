@@ -1,7 +1,5 @@
 package com.example.vom;
 
-import javafx.animation.Animation;
-import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
@@ -21,7 +19,7 @@ import java.util.ResourceBundle;
 
 public class GameController implements Initializable {
 
-    private List<Character> characters;
+
     private Character activeCharacter;
     @FXML private Pane replyPane;
     @FXML private Pane displayPane;
@@ -32,25 +30,45 @@ public class GameController implements Initializable {
     @FXML private Button replyButton1;
     @FXML private Button replyButton2;
 
-    private final Timeline introTimeline = new Timeline();
+    private ArrayList<Node> titleScreenGroup;
+    private GameStateManager gameStateManager;
+    private UIManager uiManager;
 
     public GameController() {
-        this.characters = new ArrayList<>();
+        titleScreenGroup.addAll(Arrays.asList(startButton,titleScreenPane));
+    }
+
+    public void setGameStateManager(GameStateManager theGameStateManager) {
+        this.gameStateManager = theGameStateManager;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        preparePanes();
-        prepareButtons();
-        initActions();
-        initKeyframes();
-        createCharacters();
+        setupButtonActions();
+    }
+
+    public void updateUI() {
+        switch (gameStateManager.getCurrentGameState()) {
+            case TITLE_SCREEN -> prepareTitleScreen();
+        }
+    }
+
+    public void prepareInGameScreen() {
+
+    }
+
+    public void prepareTitleScreen() {
+        makeInvisible(replyButton1);
+        makeInvisible(replyButton2);
+        makeInvisible(displayPane);
+        makeInvisible(convoPane);
+        makeInvisible(replyPane);
+        titleScreenPane.setVisible(true);
     }
 
     private void createCharacters() {
         Character Mike = new Character("Mike", "123");
         Mike.getDialogue().addResponse("Hello?", "Heyy Kid!");
-        this.characters.add(Mike);
     }
 
     public Character getActiveCharacter() {
@@ -76,28 +94,15 @@ public class GameController implements Initializable {
         blinkTimeline.play();
     }
 
-    public void startFadeAnimation(final Node theNode, final boolean fadeOut, final double theSpeed) {
-        FadeTransition fadeTransition = new FadeTransition(Duration.seconds(theSpeed), theNode);
-        if (fadeOut) {
-            fadeTransition.setFromValue(R.visibility.VISIBLE);
-            fadeTransition.setToValue(R.visibility.INVISIBLE);
-        } else {
-            fadeTransition.setFromValue(R.visibility.INVISIBLE);
-            fadeTransition.setToValue(R.visibility.VISIBLE);
-        }
-        fadeTransition.play();
-    }
-
     public void startMultipleFadeAnimations(List<Node> nodesArray, final boolean fadeOut, final double speed) {
         for (Node node : nodesArray) {
-            startFadeAnimation(node, fadeOut, speed);
+            uiManager.startFadeAnimation(node, fadeOut, speed);
         }
     }
 
-    public void initActions() {
+    public void setupButtonActions() {
         startButton.setOnAction(actionEvent -> {
-            startFadeAnimation(titleScreenPane, true, R.speed.NORMAL);
-            introTimeline.play();
+            uiManager.startFadeAnimation(titleScreenPane, true, R.speed.NORMAL);
         });
     }
 
@@ -105,36 +110,4 @@ public class GameController implements Initializable {
         theNode.setVisible(true);
         theNode.setOpacity(R.visibility.INVISIBLE);
     }
-
-    private void prepareButtons() {
-        makeInvisible(replyButton1);
-        makeInvisible(replyButton2);
-    }
-
-    private void preparePanes() {
-        makeInvisible(displayPane);
-        makeInvisible(convoPane);
-        makeInvisible(replyPane);
-        titleScreenPane.setVisible(true);
-    }
-
-    public void initKeyframes() {
-        introTimeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), e -> startMultipleFadeAnimations(Arrays
-                .asList(displayPane, replyPane, convoPane), false, R.speed.NORMAL)));
-    }
-
-    public void startTypewriterEffect(final String theText, Timeline theTimeline) {
-        StringBuilder sb = new StringBuilder();
-        Timeline typewriterTimeline = new Timeline();
-        for (int i = 0; i < theText.length(); i++) {
-            char nextLetter = theText.charAt(i);
-            KeyFrame kf = new KeyFrame(Duration.seconds(i * 0.07), e -> {
-                sb.append(nextLetter);
-                convoLabel.setText(sb.toString());
-            });
-            typewriterTimeline.getKeyFrames().add(kf);
-        }
-        typewriterTimeline.play();
-    }
-
 }
