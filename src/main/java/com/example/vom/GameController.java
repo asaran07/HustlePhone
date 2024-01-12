@@ -1,26 +1,23 @@
 package com.example.vom;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
-import javafx.util.Duration;
 import res.R;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.ResourceBundle;
 
-public class GameController implements Initializable {
+public class GameController implements Initializable, StateChangeListener {
+    private GameStateManager gameStateManager;
+    private UIAnimationPlayerContract uiAnimationPlayerContract;
+    private CoreGameManagerContract coreGameManagerContract;
 
-
-    private Character activeCharacter;
     @FXML private Pane replyPane;
     @FXML private Pane displayPane;
     @FXML private Pane convoPane;
@@ -30,84 +27,63 @@ public class GameController implements Initializable {
     @FXML private Button replyButton1;
     @FXML private Button replyButton2;
 
-    private ArrayList<Node> titleScreenGroup;
-    private GameStateManager gameStateManager;
-    private UIManager uiManager;
+    private ArrayList<Node> titleScreenUIGroup;
+    private ArrayList<Node> inGameUIGroup;
 
     public GameController() {
-        titleScreenGroup.addAll(Arrays.asList(startButton,titleScreenPane));
+        titleScreenUIGroup = new ArrayList<>();
+        inGameUIGroup = new ArrayList<>();
     }
-
+    public void setCoreGameManagerContract(CoreGameManagerContract theCoreGameManagerContract) {
+        this.coreGameManagerContract = theCoreGameManagerContract;
+    }
+    public void setUiAnimationPlayerContract(UIAnimationPlayerContract theUIAnimationPlayerContract) {
+        this.uiAnimationPlayerContract = theUIAnimationPlayerContract;
+    }
     public void setGameStateManager(GameStateManager theGameStateManager) {
         this.gameStateManager = theGameStateManager;
+        gameStateManager.addStateChangeListener(GameStateCategory.UI_UPDATE, this);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        titleScreenUIGroup.addAll(Arrays.asList(startButton,titleScreenPane));
+        inGameUIGroup.addAll(Arrays.asList(replyButton1,replyButton2,replyPane,displayPane,convoPane,convoLabel));
         setupButtonActions();
     }
 
-    public void updateUI() {
-        switch (gameStateManager.getCurrentGameState()) {
-            case TITLE_SCREEN -> prepareTitleScreen();
-        }
-    }
-
     public void prepareInGameScreen() {
-
+        inGameUIGroup.forEach(this::makeVisible);
+        titleScreenPane.setVisible(false);
     }
 
     public void prepareTitleScreen() {
-        makeInvisible(replyButton1);
-        makeInvisible(replyButton2);
-        makeInvisible(displayPane);
-        makeInvisible(convoPane);
-        makeInvisible(replyPane);
         titleScreenPane.setVisible(true);
+        inGameUIGroup.forEach(this::makeInvisible);
     }
 
-    private void createCharacters() {
-        Character Mike = new Character("Mike", "123");
-        Mike.getDialogue().addResponse("Hello?", "Heyy Kid!");
-    }
-
-    public Character getActiveCharacter() {
-        return this.activeCharacter;
-    }
-
-    public void setActiveCharacter(Character character) {
-        this.activeCharacter = character;
-    }
-
-    public void toggleNodeVisibility(final Node node) {
-        node.setVisible(!node.isVisible());
-    }
-
-    public void startBlinkAnimation(final Node theNode, final double theSpeed, final int theTotalBlinks) {
-        Timeline blinkTimeline = new Timeline();
-        for (int i = 0; i < theTotalBlinks; i++) {
-            KeyFrame kf = new KeyFrame(Duration.seconds(i*theSpeed), e -> {
-                theNode.setVisible(!theNode.isVisible());
-            });
-            blinkTimeline.getKeyFrames().add(kf);
-        }
-        blinkTimeline.play();
-    }
-
-    public void startMultipleFadeAnimations(List<Node> nodesArray, final boolean fadeOut, final double speed) {
-        for (Node node : nodesArray) {
-            uiManager.startFadeAnimation(node, fadeOut, speed);
-        }
-    }
-
-    public void setupButtonActions() {
-        startButton.setOnAction(actionEvent -> {
-            uiManager.startFadeAnimation(titleScreenPane, true, R.speed.NORMAL);
-        });
+    public void makeVisible(final Node theNode) {
+        theNode.setVisible(true);
     }
 
     private void makeInvisible(final Node theNode) {
         theNode.setVisible(true);
         theNode.setOpacity(R.visibility.INVISIBLE);
     }
+
+    public void setupButtonActions() {
+        startButton.setOnAction(actionEvent -> {
+            gameStateManager.setCurrentGameState(GameState.IN_GAME);
+            uiAnimationPlayerContract.startFadeAnimation(titleScreenPane, true, R.speed.NORMAL);
+        });
+    }
+
+    @Override
+    public void onStateChange(GameState theNewState) {
+        switch (theNewState) {
+            case TITLE_SCREEN -> prepareTitleScreen();
+            case IN_GAME -> prepareInGameScreen();
+        }
+    }
+
 }

@@ -1,4 +1,5 @@
 package com.example.vom;
 
-public class CoreGameManager {
+public class CoreGameManager implements CoreGameManagerContract {
+
 }

@@ -8,7 +8,9 @@ import javafx.scene.control.Label;
 import javafx.util.Duration;
 import res.R;
 
-public class UIAnimationPlayer {
+import java.util.List;
+
+public class UIAnimationPlayer implements UIAnimationPlayerContract {
 
     public void startFadeAnimation(final Node theNode, final boolean fadeOut, final double theSpeed) {
         FadeTransition fadeTransition = new FadeTransition(Duration.seconds(theSpeed), theNode);
@@ -21,6 +23,19 @@ public class UIAnimationPlayer {
         }
         fadeTransition.play();
     }
+
+    @Override
+    public void startBlinkAnimation(Node theNode, double theSpeed, int theTotalBlinks) {
+        Timeline blinkTimeline = new Timeline();
+        for (int i = 0; i < theTotalBlinks; i++) {
+            KeyFrame kf = new KeyFrame(Duration.seconds(i*theSpeed), e -> {
+                theNode.setVisible(!theNode.isVisible());
+            });
+            blinkTimeline.getKeyFrames().add(kf);
+        }
+        blinkTimeline.play();
+    }
+
     public void startTypewriterEffect(final String theText, Timeline theTimeline, Label theLabel) {
         StringBuilder sb = new StringBuilder();
         Timeline typewriterTimeline = new Timeline();
@@ -34,4 +49,13 @@ public class UIAnimationPlayer {
         }
         typewriterTimeline.play();
     }
+
+    @Override
+    public void startMultipleFadeAnimations(List<Node> nodesArray, boolean fadeOut, double speed) {
+        for (Node node : nodesArray) {
+            startFadeAnimation(node, fadeOut, speed);
+        }
+    }
+
+
 }

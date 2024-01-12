@@ -10,21 +10,19 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class GameApplication extends Application {
-    private GameStateManager gameStateManager;
     @Override
     public void start(Stage mainStage) throws IOException {
-        gameStateManager = new GameStateManager();
-        UIAnimationPlayer uiAnimationPlayer = new UIAnimationPlayer();
-        UIManager uiManager = new UIManager(uiAnimationPlayer);
-
+        GameStateManager gameStateManager = new GameStateManager();
+        CoreGameManagerContract coreGameManagerContract = new CoreGameManager();
+        UIAnimationPlayerContract uiAnimationPlayerContract = new UIAnimationPlayer();
 
         FXMLLoader fxmlLoader = new FXMLLoader(GameApplication.class.getResource("hello-view.fxml"));
         Parent root = fxmlLoader.load();
-
-        GameController gameController = fxmlLoader.load();
+        GameController gameController = fxmlLoader.getController();
         gameController.setGameStateManager(gameStateManager);
-        gameController.setUIManager(uiManager);
-
+        gameController.setUiAnimationPlayerContract(uiAnimationPlayerContract);
+        gameController.setCoreGameManagerContract(coreGameManagerContract);
+        gameStateManager.changeState(GameState.TITLE_SCREEN, GameStateCategory.UI_UPDATE);
         Scene mainScene = new Scene(root);
         mainStage.setScene(mainScene);
         mainStage.setTitle("vom v0.0.1");
