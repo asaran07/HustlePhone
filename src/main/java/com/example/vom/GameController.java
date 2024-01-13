@@ -73,7 +73,7 @@ public class GameController implements Initializable, StateChangeListener {
 
     public void setupButtonActions() {
         startButton.setOnAction(actionEvent -> {
-            gameStateManager.setCurrentGameState(GameState.IN_GAME);
+            gameStateManager.setCurrentGameState(GameState.NEW_GAME);
             uiAnimationPlayerContract.startFadeAnimation(titleScreenPane, true, R.speed.NORMAL);
         });
     }
@@ -82,7 +82,7 @@ public class GameController implements Initializable, StateChangeListener {
     public void onStateChange(GameState theNewState) {
         switch (theNewState) {
             case TITLE_SCREEN -> prepareTitleScreen();
-            case IN_GAME -> prepareInGameScreen();
+            case NEW_GAME -> prepareInGameScreen();
         }
     }
 
