@@ -1,46 +1,29 @@
 package com.example.vom;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class GameStateManager {
 
     private GameState currentGameState;
-    private Map<GameStateCategory, List<StateChangeListener>> catagorizedListeners = new HashMap<>();
-    public GameStateManager() {
+    private UIState currentUIState;
+    private List<StateChangeListener> listeners = new ArrayList<>();
 
+    public void changeState(GameState theGameState, UIState theUIState) {
+        currentGameState = theGameState;
+        currentUIState = theUIState;
+        GameStateChangeEvent event = new GameStateChangeEvent(theGameState, theUIState);
+        notifyStateChange(event);
     }
 
-    public void changeState(GameState theNewState, GameStateCategory theCategory) {
-        this.currentGameState = theNewState;
-        processGameState();
-        notifyStateChange(theNewState, theCategory);
-    }
-
-    private void processGameState() {
-
-    }
-
-    public void addStateChangeListener(final GameStateCategory theStateCategory, StateChangeListener theStateChangeListener) {
-        catagorizedListeners.computeIfAbsent(theStateCategory, k -> new ArrayList<>()).add(theStateChangeListener);
-    }
-
-    private void notifyStateChange(final GameState theNewState, final GameStateCategory theStateCategory) {
-        List<StateChangeListener> listeners = catagorizedListeners.get(theStateCategory);
-        if (listeners != null) {
-            for (StateChangeListener listener : listeners) {
-                listener.onStateChange(theNewState);
-            }
+    private void notifyStateChange(GameStateChangeEvent theEvent) {
+        for (StateChangeListener listener : listeners) {
+            listener.onStateChange(theEvent);
         }
     }
 
-    public GameState getCurrentGameState() {
-        return currentGameState;
+    public void addStateChangeListener(StateChangeListener theListener) {
+        listeners.add(theListener);
     }
 
-    public void setCurrentGameState(final GameState theNewGameState) {
-        this.currentGameState = theNewGameState;
-    }
 }

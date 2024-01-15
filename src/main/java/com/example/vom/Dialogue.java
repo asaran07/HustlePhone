@@ -4,10 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Dialogue {
+
     private Map<String, String> responses;
-    public Dialogue() {
-        this.responses = new HashMap<>();
+
+    public Dialogue(String theKey, String theDialogue) {
+        responses = new HashMap<>();
+        responses.put(theKey, theDialogue);
     }
+
     public void addResponse(String playerAction, String characterResponse) {
         this.responses.put(playerAction, characterResponse);
     }

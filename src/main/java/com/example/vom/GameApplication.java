@@ -22,7 +22,7 @@ public class GameApplication extends Application {
         gameController.setUiAnimationPlayerContract(uiAnimationPlayerContract);
         gameController.setCoreGameManagerContract(coreGameManagerContract);
 
-        gameStateManager.changeState(GameState.TITLE_SCREEN, GameStateCategory.UI_UPDATE);
+        gameStateManager.changeState(GameState.TITLE_SCREEN, UIState.ON_TITLE_SCREEN);
         Scene mainScene = new Scene(root);
         mainStage.setScene(mainScene);
         mainStage.setTitle("vom v0.0.1");

@@ -1,5 +1,5 @@
 package com.example.vom;
 
 public interface StateChangeListener {
-    void onStateChange(final GameState theNewState);
+    void onStateChange(final GameStateChangeEvent theEvent);
 }

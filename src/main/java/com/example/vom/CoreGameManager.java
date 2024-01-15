@@ -5,7 +5,7 @@ public class CoreGameManager implements CoreGameManagerContract, StateChangeList
 
     public CoreGameManager(GameStateManager theGameStateManager) {
         setGameStateManager(theGameStateManager);
-        gameStateManager.addStateChangeListener(GameStateCategory.GAME_PROGRESS, this);
+        gameStateManager.addStateChangeListener(this);
     }
 
     public void setGameStateManager(GameStateManager gameStateManager) {
@@ -13,14 +13,20 @@ public class CoreGameManager implements CoreGameManagerContract, StateChangeList
     }
 
     @Override
-    public void onStateChange(GameState theNewState) {
-        switch (theNewState) {
-            case NEW_GAME -> startNewGame();
+    public void onStateChange(GameStateChangeEvent theEvent) {
+        if (theEvent.gameState() == GameState.IN_GAME) {
+            startNewGame();
         }
     }
 
     private void startNewGame() {
-        gameStateManager.changeState(GameState.IN_GAME, GameStateCategory.UI_UPDATE);
+        Dialogue dialogue = new Dialogue("","hey kid");
+        Character mike = new Character("Mike","123", dialogue);
+        Player player = new Player("Player1");
+    }
+
+    private void startTutorial() {
+
     }
 
 

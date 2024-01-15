@@ -8,13 +8,11 @@ public class Character {
     private Dialogue dialogue;
     private ArrayList<Dialogue> dialogues;
     private String phoneNumber;
-    private List<String> memory;
 
-    public Character(String name, String phoneNumber) {
-        this.name = name;
-        this.dialogue = new Dialogue();
-        this.phoneNumber = phoneNumber;
-        this.memory = new ArrayList<>();
+    public Character(String theName, String thePhoneNumber, Dialogue theDialogue) {
+        this.name = theName;
+        this.dialogue = theDialogue;
+        this.phoneNumber = thePhoneNumber;
     }
 
     public String getName() {
@@ -35,14 +33,6 @@ public class Character {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public List<String> getMemory() {
-        return memory;
-    }
-
-    public void addMemory(String event) {
-        this.memory.add(event);
     }
 
     // create a method to retrieve their wording based on the game state or scenario.
