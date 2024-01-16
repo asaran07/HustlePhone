@@ -2,6 +2,7 @@ package com.example.vom;
 
 public class CoreGameManager implements CoreGameManagerContract, StateChangeListener {
     private GameStateManager gameStateManager;
+    private ConversationNode currentNode;
 
     public CoreGameManager(GameStateManager theGameStateManager) {
         setGameStateManager(theGameStateManager);
@@ -20,9 +21,13 @@ public class CoreGameManager implements CoreGameManagerContract, StateChangeList
     }
 
     private void startNewGame() {
-        Dialogue dialogue = new Dialogue("","hey kid");
-        Character mike = new Character("Mike","123", dialogue);
-        Player player = new Player("Player1");
+        Choice choices1 = new Choice("uhh.. i think so?", "loud and clear.");
+        Dialogue dialogue1 = new Dialogue("mike", "heyy kid!!");
+        ConversationNode empty = new EmptyNode();
+        ConversationNode Cnode1 = new ChoiceNode(choices1, empty);
+        ConversationNode Dnode1 = new DialogueNode(dialogue1, Cnode1);
+        currentNode = Dnode1;
+
     }
 
     private void startTutorial() {

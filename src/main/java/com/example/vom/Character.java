@@ -9,9 +9,8 @@ public class Character {
     private ArrayList<Dialogue> dialogues;
     private String phoneNumber;
 
-    public Character(String theName, String thePhoneNumber, Dialogue theDialogue) {
+    public Character(String theName, String thePhoneNumber) {
         this.name = theName;
-        this.dialogue = theDialogue;
         this.phoneNumber = thePhoneNumber;
     }
 
