@@ -1,10 +1,22 @@
 package com.example.vom;
 
+import java.util.ArrayList;
+
 public class ChoiceNode implements ConversationNode {
-    private Choice choice;
+    private ArrayList<Choice> choices;
+
     private ConversationNode nextNode;
-    public ChoiceNode(Choice choice, ConversationNode nextNode) {
-        this.choice = choice;
-        this.nextNode = nextNode;
+
+    public void addChoice(Choice choice) {
+        choices.add(choice);
+    }
+
+    public void addChoices(ArrayList<Choice> theChoices) {
+        choices.addAll(theChoices);
+    }
+
+    @Override
+    public void setNextNode(ConversationNode nextNode) {
+
     }
 }

@@ -1,12 +1,19 @@
 package com.example.vom;
 
+import java.util.Arrays;
+
 public class CoreGameManager implements CoreGameManagerContract, StateChangeListener {
     private GameStateManager gameStateManager;
     private ConversationNode currentNode;
+    private CharacterDatabase characterDatabase;
+    private Character currentCharacter;
+    private Dialogue currentDialogue;
 
-    public CoreGameManager(GameStateManager theGameStateManager) {
+
+    public CoreGameManager(GameStateManager theGameStateManager, CharacterDatabase theCharacterDatabase) {
         setGameStateManager(theGameStateManager);
         gameStateManager.addStateChangeListener(this);
+        characterDatabase = theCharacterDatabase;
     }
 
     public void setGameStateManager(GameStateManager gameStateManager) {
@@ -21,16 +28,46 @@ public class CoreGameManager implements CoreGameManagerContract, StateChangeList
     }
 
     private void startNewGame() {
-        Choice choices1 = new Choice("uhh.. i think so?", "loud and clear.");
-        Dialogue dialogue1 = new Dialogue("mike", "heyy kid!!");
-        ConversationNode empty = new EmptyNode();
-        ConversationNode Cnode1 = new ChoiceNode(choices1, empty);
-        ConversationNode Dnode1 = new DialogueNode(dialogue1, Cnode1);
-        currentNode = Dnode1;
+        currentCharacter = characterDatabase.getCharacter("123");
+
+        Dialogue dialogueA = new Dialogue("What's 2+2?");
+        ConversationNode conversationNodeA = new DialogueNode(dialogueA);
+
+        Dialogue dialogueA1 = new Dialogue("Wrong, how old are you?");
+        Dialogue dialogueA2 = new Dialogue("Right, not a kid I see.");
+
+        Dialogue dialogueB1 = new Dialogue("It doesn't matter, let us begin.");
+        Dialogue dialogueB2 = new Dialogue("Well nothing we can do now..lets begin anyway.");
+
+        ConversationNode conversationNodeB1 = new DialogueNode(dialogueA1);
+        ConversationNode conversationNodeB2 = new DialogueNode(dialogueA2);
+
+        Choice choiceA = new Choice("4", conversationNodeB2);
+        Choice choiceB = new Choice("21", conversationNodeB1);
+
+        ConversationNode conversationNodeB3 = new DialogueNode(dialogueB1);
+        Choice choiceC1 = new Choice("You asked that question to confirm that?", conversationNodeB3);
+        Choice choiceC2 = new Choice("Definitely not a kid haha..", conversationNodeB3);
+
+        ConversationNode conversationNodeC1 = new DialogueNode(dialogueB2);
+        Choice choiceC3 = new Choice("I'm old enough.", conversationNodeC1);
+        Choice choiceC4 = new Choice("Why do you ask?", conversationNodeC1);
+
+        ConversationNode conversationNodeB = new ChoiceNode();
+        ((ChoiceNode) conversationNodeB).addChoice(choiceA);
+        ((ChoiceNode) conversationNodeB).addChoice(choiceB);
+
+        ((ChoiceNode) conversationNodeB3).addChoice(choiceC1);
+        ((ChoiceNode) conversationNodeB3).addChoice(choiceC2);
+
+        ((ChoiceNode) conversationNodeC1).addChoice(choiceC3);
+        ((ChoiceNode) conversationNodeC1).addChoice(choiceC4);
+
+        currentNode = conversationNodeA;
 
     }
 
-    private void startTutorial() {
+    private void process() {
 
     }
 

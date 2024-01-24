@@ -1,27 +1,27 @@
 package com.example.vom;
 
 public class Choice {
-    private String optionA;
-    private String optionB;
+    private String choice;
+    private ConversationNode nextNode;
 
-    public Choice(String optionA, String optionB) {
-        this.optionA = optionA;
-        this.optionB = optionB;
+    public Choice(String theChoice, ConversationNode theNextNode) {
+        this.choice = theChoice;
+        this.nextNode = theNextNode;
     }
 
-    public String getOptionA() {
-        return optionA;
+
+    public String getChoice() {
+        return choice;
+    }
+    public void setNextNode(ConversationNode nextNode) {
+        this.nextNode = nextNode;
+    }
+    public void setChoice(String choice) {
+        this.choice = choice;
+    }
+    public ConversationNode getNextNode() {
+        return nextNode;
     }
 
-    public String getOptionB() {
-        return optionB;
-    }
 
-    public void setOptionA(String optionA) {
-        this.optionA = optionA;
-    }
-
-    public void setOptionB(String optionB) {
-        this.optionB = optionB;
-    }
 }

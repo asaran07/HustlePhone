@@ -12,8 +12,10 @@ public class GameApplication extends Application {
     @Override
     public void start(Stage mainStage) throws IOException {
         GameStateManager gameStateManager = new GameStateManager();
-        CoreGameManagerContract coreGameManagerContract = new CoreGameManager(gameStateManager);
+        CharacterDatabase characterDatabase = new CharacterDatabase();
+        CoreGameManagerContract coreGameManagerContract = new CoreGameManager(gameStateManager, characterDatabase);
         UIAnimationPlayerContract uiAnimationPlayerContract = new UIAnimationPlayer();
+
 
         FXMLLoader fxmlLoader = new FXMLLoader(GameApplication.class.getResource("hello-view.fxml"));
         Parent root = fxmlLoader.load();
