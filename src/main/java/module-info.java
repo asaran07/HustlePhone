@@ -4,6 +4,7 @@ module com.example.vom {
 
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
+    requires luaj.jse;
 
 
     exports com.example.vom;
