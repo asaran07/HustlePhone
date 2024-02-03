@@ -1,5 +1,6 @@
 package com.example.vom;
 
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -8,10 +9,13 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import res.R;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
+
 
 
 /**
@@ -42,6 +46,7 @@ public class GameController implements Initializable, StateChangeListener {
     /* UI Elements Group */
     private ArrayList<Node> titleScreenUIGroup;
     private ArrayList<Node> inGameUIGroup;
+    private Timeline timeline = new Timeline();
 
     /**
      * Constructor, initializes UI elements groups.
@@ -95,10 +100,36 @@ public class GameController implements Initializable, StateChangeListener {
     /**
      * Prepares the in-game screen by making UI elements visible and starting fade animations.
      */
-    public void prepareInGameScreen() {
+    public void prepareInGameScreen() throws IOException {
         inGameUIGroup.forEach(this::makeVisible);
         uiAnimationPlayerContract.startMultipleFadeAnimations(Arrays
-                .asList(replyPane, convoPane, displayPane), false, R.speed.NORMAL);
+                .asList(replyPane, convoPane, displayPane, convoLabel), false, R.speed.NORMAL);
+        coreGameManagerContract.loadDialogues("src/main/java/dialogues/dfile.json");
+        displayDialogue("start_convo");
+    }
+
+    public void displayDialogue(String dialogueID) {
+        Dialogue currentDialogue = coreGameManagerContract.getCurrentDialogue(dialogueID);
+
+        uiAnimationPlayerContract.startTypewriterEffect(
+                currentDialogue.getText(), timeline, convoLabel);
+        List<Option> options = currentDialogue.getOptions();
+        if (options.size() > 0) {
+            replyButton1.setText(options.get(0).getText());
+            makeVisible(replyButton1);
+            uiAnimationPlayerContract.startFadeAnimation(replyButton1, false, R.speed.NORMAL);
+            replyButton1.setOnAction(e -> displayDialogue(options.get(0).getNextDialogueID()));
+        } else {
+            makeInvisible(replyButton1);
+        }
+        if (options.size() > 1) {
+            replyButton2.setText(options.get(1).getText());
+            makeVisible(replyButton2);
+            uiAnimationPlayerContract.startFadeAnimation(replyButton2, false, R.speed.NORMAL);
+            replyButton2.setOnAction(e -> displayDialogue(options.get(1).getNextDialogueID()));
+        } else {
+            makeInvisible(replyButton2);
+        }
     }
 
     /**
@@ -136,7 +167,11 @@ public class GameController implements Initializable, StateChangeListener {
     public void setupButtonActions() {
         startButton.setOnAction(actionEvent -> {
             uiAnimationPlayerContract.startFadeAnimation(titleScreenPane, true, R.speed.NORMAL);
-            gameStateManager.changeState(GameState.IN_GAME, UIState.ON_GAME_SCREEN);
+            try {
+                gameStateManager.changeState(GameState.IN_GAME, UIState.ON_GAME_SCREEN);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 
@@ -147,7 +182,7 @@ public class GameController implements Initializable, StateChangeListener {
      * @param theEvent The event carrying  the new GameState.
      */
     @Override
-    public void onStateChange(GameStateChangeEvent theEvent) {
+    public void onStateChange(GameStateChangeEvent theEvent) throws IOException {
         switch (theEvent.uiState()) {
             case UIState.ON_TITLE_SCREEN -> prepareTitleScreen();
             case UIState.ON_GAME_SCREEN -> prepareInGameScreen();

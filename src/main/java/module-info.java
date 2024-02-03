@@ -4,8 +4,8 @@ module com.example.vom {
 
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
-    requires luaj.jse;
-
+    requires com.fasterxml.jackson.annotation;
+    requires com.fasterxml.jackson.databind;
 
     exports com.example.vom;
     opens com.example.vom to javafx.fxml;

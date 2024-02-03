@@ -1,5 +1,8 @@
 package com.example.vom;
 
-public interface CoreGameManagerContract {
+import java.io.IOException;
 
+public interface CoreGameManagerContract {
+    Dialogue getCurrentDialogue(String dialogueID);
+    void loadDialogues(String filePath) throws IOException;
 }

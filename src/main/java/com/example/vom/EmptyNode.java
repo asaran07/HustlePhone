@@ -5,4 +5,9 @@ public class EmptyNode implements ConversationNode {
     public String toString() {
         return "EmptyNode";
     }
+
+    @Override
+    public void setNextNode(ConversationNode nextNode) {
+
+    }
 }
