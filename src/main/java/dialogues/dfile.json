@@ -19,6 +19,10 @@
         {
           "text": "No I was just- wait do I know you?",
           "next": "end_convo"
+        },
+        {
+          "text": "Yeah I forgor :skull emoji:",
+          "next": "end_convo"
         }
       ]
     },
