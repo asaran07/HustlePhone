@@ -41,7 +41,7 @@ public class UIAnimationPlayer implements UIAnimationPlayerContract {
         Timeline typewriterTimeline = new Timeline();
         for (int i = 0; i < theText.length(); i++) {
             char nextLetter = theText.charAt(i);
-            KeyFrame kf = new KeyFrame(Duration.seconds(i * 0.07), e -> {
+            KeyFrame kf = new KeyFrame(Duration.seconds(i * 0.05), e -> {
                 sb.append(nextLetter);
                 theLabel.setText(sb.toString());
             });

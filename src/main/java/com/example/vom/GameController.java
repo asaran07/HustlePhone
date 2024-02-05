@@ -42,6 +42,7 @@ public class GameController implements Initializable, StateChangeListener {
     @FXML private Label convoLabel;
     @FXML private Button replyButton1;
     @FXML private Button replyButton2;
+    @FXML private Button callMikeButton;
 
     /* UI Elements Group */
     private ArrayList<Node> titleScreenUIGroup;
@@ -140,6 +141,7 @@ public class GameController implements Initializable, StateChangeListener {
 
     private void endConversation() {
         System.out.println("ending conversation");
+
     }
 
     /**
