@@ -104,16 +104,18 @@ public class GameController implements Initializable, StateChangeListener {
         inGameUIGroup.forEach(this::makeVisible);
         uiAnimationPlayerContract.startMultipleFadeAnimations(Arrays
                 .asList(replyPane, convoPane, displayPane, convoLabel), false, R.speed.NORMAL);
+
         coreGameManagerContract.loadDialogues("src/main/java/dialogues/dfile.json");
         displayDialogue("start_convo");
+        gameStateManager.changeState(GameState.IN_CALL, UIState.NO_CHANGE);
     }
 
     public void displayDialogue(String dialogueID) {
         Dialogue currentDialogue = coreGameManagerContract.getCurrentDialogue(dialogueID);
-
         uiAnimationPlayerContract.startTypewriterEffect(
                 currentDialogue.getText(), timeline, convoLabel);
         List<Option> options = currentDialogue.getOptions();
+
         if (options.size() > 0) {
             replyButton1.setText(options.get(0).getText());
             makeVisible(replyButton1);
@@ -130,6 +132,14 @@ public class GameController implements Initializable, StateChangeListener {
         } else {
             makeInvisible(replyButton2);
         }
+        if (options.isEmpty()) {
+            endConversation();
+        }
+
+    }
+
+    private void endConversation() {
+        System.out.println("ending conversation");
     }
 
     /**

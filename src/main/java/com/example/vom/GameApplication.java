@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class GameApplication extends Application {
+    private static final String VERSION = "0.3.1";
     @Override
     public void start(Stage mainStage) throws IOException {
         GameStateManager gameStateManager = new GameStateManager();
@@ -27,7 +28,7 @@ public class GameApplication extends Application {
         gameStateManager.changeState(GameState.NOT_IN_GAME, UIState.ON_TITLE_SCREEN);
         Scene mainScene = new Scene(root);
         mainStage.setScene(mainScene);
-        mainStage.setTitle("HustlePhone 0.3.0");
+        mainStage.setTitle(VERSION);
         mainStage.show();
     }
 
