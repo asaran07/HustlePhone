@@ -1,8 +1,8 @@
 package com.example.vom;
 
 public enum GameState {
-    TITLE_SCREEN,
-    IN_GAME,
-    NEW_GAME,
-    TUTORIAL;
+    NOT_IN_CALL,
+    IN_CALL,
+    NOT_IN_GAME,
+    IN_GAME
 }

@@ -24,10 +24,10 @@ public class GameApplication extends Application {
         gameController.setUiAnimationPlayerContract(uiAnimationPlayerContract);
         gameController.setCoreGameManagerContract(coreGameManagerContract);
 
-        gameStateManager.changeState(GameState.TITLE_SCREEN, UIState.ON_TITLE_SCREEN);
+        gameStateManager.changeState(GameState.NOT_IN_GAME, UIState.ON_TITLE_SCREEN);
         Scene mainScene = new Scene(root);
         mainStage.setScene(mainScene);
-        mainStage.setTitle("vom v0.0.1");
+        mainStage.setTitle("HustlePhone 0.3.0");
         mainStage.show();
     }
 
