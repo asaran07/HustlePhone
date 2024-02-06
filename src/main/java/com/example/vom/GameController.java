@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
-
+import java.util.stream.Collectors;
 
 
 /**
@@ -35,7 +35,6 @@ public class GameController implements Initializable, StateChangeListener {
 
     /* FXML Components used in UI */
     @FXML private Pane replyPane;
-    @FXML private Pane displayPane;
     @FXML private Pane convoPane;
     @FXML private Pane titleScreenPane;
     @FXML private Button startButton;
@@ -47,7 +46,7 @@ public class GameController implements Initializable, StateChangeListener {
     /* UI Elements Group */
     private ArrayList<Node> titleScreenUIGroup;
     private ArrayList<Node> inGameUIGroup;
-    private Timeline timeline = new Timeline();
+    private Timeline dialogueTimeline = new Timeline();
 
     /**
      * Constructor, initializes UI elements groups.
@@ -94,7 +93,7 @@ public class GameController implements Initializable, StateChangeListener {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         titleScreenUIGroup.addAll(Arrays.asList(startButton,titleScreenPane));
-        inGameUIGroup.addAll(Arrays.asList(replyButton1,replyButton2,replyPane,displayPane,convoPane,convoLabel));
+        inGameUIGroup.addAll(Arrays.asList(replyButton1,replyButton2,replyPane,convoPane,convoLabel));
         setupButtonActions();
     }
 
@@ -104,44 +103,91 @@ public class GameController implements Initializable, StateChangeListener {
     public void prepareInGameScreen() throws IOException {
         inGameUIGroup.forEach(this::makeVisible);
         uiAnimationPlayerContract.startMultipleFadeAnimations(Arrays
-                .asList(replyPane, convoPane, displayPane, convoLabel), false, R.speed.NORMAL);
+                .asList(replyPane, convoPane, convoLabel), false, R.speed.NORMAL);
 
         coreGameManagerContract.loadDialogues("src/main/java/dialogues/dfile.json");
-        displayDialogue("start_convo");
+        processDialogue("start_convo");
         gameStateManager.changeState(GameState.IN_CALL, UIState.NO_CHANGE);
+        callMikeButton.setVisible(false);
     }
 
-    public void displayDialogue(String dialogueID) {
-        Dialogue currentDialogue = coreGameManagerContract.getCurrentDialogue(dialogueID);
-        uiAnimationPlayerContract.startTypewriterEffect(
-                currentDialogue.getText(), timeline, convoLabel);
+    public void processDialogue(String dialogueID) throws IOException {
+        System.out.println("processing dialogue");
+        Dialogue currentDialogue = displayDialogue(dialogueID);
         List<Option> options = currentDialogue.getOptions();
+        List<Option> displayableOptions = options.stream()
+                .filter(option -> option.getText() != null
+                        && !option.getText().isEmpty()).collect(Collectors.toList());
 
-        if (options.size() > 0) {
-            replyButton1.setText(options.get(0).getText());
+        if (!displayableOptions.isEmpty()) {
+            replyButton1.setText(displayableOptions.getFirst().getText());
             makeVisible(replyButton1);
             uiAnimationPlayerContract.startFadeAnimation(replyButton1, false, R.speed.NORMAL);
-            replyButton1.setOnAction(e -> displayDialogue(options.get(0).getNextDialogueID()));
+            replyButton1.setOnAction(e -> {
+                try {
+                    processDialogue(displayableOptions.getFirst().getNextDialogueID());
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
         } else {
             makeInvisible(replyButton1);
         }
-        if (options.size() > 1) {
-            replyButton2.setText(options.get(1).getText());
+        if (displayableOptions.size() > 1) {
+            replyButton2.setText(displayableOptions.get(1).getText());
             makeVisible(replyButton2);
             uiAnimationPlayerContract.startFadeAnimation(replyButton2, false, R.speed.NORMAL);
-            replyButton2.setOnAction(e -> displayDialogue(options.get(1).getNextDialogueID()));
+            replyButton2.setOnAction(e -> {
+                try {
+                    processDialogue(displayableOptions.get(1).getNextDialogueID());
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
         } else {
             makeInvisible(replyButton2);
         }
-        if (options.isEmpty()) {
+
+        if (options.isEmpty() || displayableOptions.isEmpty()) {
             endConversation();
+        }
+        if (options.getFirst().getAction() != null) {
+            triggerAction(options.getFirst().getAction());
         }
 
     }
 
-    private void endConversation() {
-        System.out.println("ending conversation");
+    private Dialogue displayDialogue(String dialogueID) {
+        System.out.println("displaying dialogue");
+        Dialogue currentDialogue = coreGameManagerContract.getCurrentDialogue(dialogueID);
+        uiAnimationPlayerContract.startTypewriterEffect(
+                currentDialogue.getText(), dialogueTimeline, convoLabel);
+        return currentDialogue;
+    }
 
+    private void triggerAction(String action) {
+        System.out.println("triggering action");
+        switch (action) {
+            case "showCallMikeButton":
+                showCallMikeButton();
+                break;
+
+        }
+    }
+
+    private void showCallMikeButton() {
+        makeInvisible(callMikeButton);
+        uiAnimationPlayerContract.startFadeAnimation(callMikeButton, false, R.speed.SLOW);
+    }
+
+    public void callMikeButtonAction() throws IOException {
+        System.out.println("showing call mike button");
+        processDialogue("start_convo2");
+    }
+
+    private void endConversation() throws IOException {
+        System.out.println("ending conversation");
+        gameStateManager.changeState(GameState.NOT_IN_CALL, UIState.NO_CHANGE);
     }
 
     /**

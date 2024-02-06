@@ -37,6 +37,31 @@
     },
     "end_convo": {
       "text": "Well, try to remember next time, kid. Anyways, here's my number.",
+      "options": [
+        {
+          "action": "showCallMikeButton"
+        }
+      ]
+    },
+    "start_convo2": {
+      "text": "Why are you calling again kid?",
+      "options": [
+        {
+          "text": "I just wanted to hear your skibidi voice",
+          "next": "saidSkibidiVoice"
+        },
+        {
+          "text": "Oh sorry I just wanted to see if this button worked haha",
+          "next": "saidWantedToCheck"
+        }
+      ]
+    },
+    "saidSkibidiVoice": {
+      "text": "Oh you one of them skibidi toilet kids...",
+      "options": []
+    },
+    "saidWantedToCheck": {
+      "text": "Well now you know.",
       "options": []
     }
   }

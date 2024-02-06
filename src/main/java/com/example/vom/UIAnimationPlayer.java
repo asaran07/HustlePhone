@@ -38,16 +38,31 @@ public class UIAnimationPlayer implements UIAnimationPlayerContract {
 
     public void startTypewriterEffect(final String theText, Timeline theTimeline, Label theLabel) {
         StringBuilder sb = new StringBuilder();
-        Timeline typewriterTimeline = new Timeline();
+        for (int i = 0; i < theText.length(); i++) {
+            char nextLetter = theText.charAt(i);
+            KeyFrame kf = new KeyFrame(Duration.seconds(i * 0.03), e -> {
+                sb.append(nextLetter);
+                theLabel.setText(sb.toString());
+            });
+            theTimeline.getKeyFrames().add(kf);
+        }
+        theTimeline.play();
+    }
+
+    public void startTypewriterEffectWithFadeFollow(final String theText, Timeline theTimeline, Label theLabel, Node theNode) {
+        StringBuilder sb = new StringBuilder();
+        theTimeline.setOnFinished(e -> {
+            startFadeAnimation(theNode, false, R.speed.FAST);
+        });
         for (int i = 0; i < theText.length(); i++) {
             char nextLetter = theText.charAt(i);
             KeyFrame kf = new KeyFrame(Duration.seconds(i * 0.05), e -> {
                 sb.append(nextLetter);
                 theLabel.setText(sb.toString());
             });
-            typewriterTimeline.getKeyFrames().add(kf);
+            theTimeline.getKeyFrames().add(kf);
         }
-        typewriterTimeline.play();
+        theTimeline.play();
     }
 
     @Override

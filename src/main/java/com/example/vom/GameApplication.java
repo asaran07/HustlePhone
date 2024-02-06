@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class GameApplication extends Application {
-    private static final String VERSION = "0.3.2";
+    private static final String VERSION = "0.3.3";
     @Override
     public void start(Stage mainStage) throws IOException {
         GameStateManager gameStateManager = new GameStateManager();

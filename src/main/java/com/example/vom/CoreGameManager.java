@@ -12,7 +12,6 @@ public class CoreGameManager implements CoreGameManagerContract, StateChangeList
 
     private DialogueManager dialogueManager;
     private GameStateManager gameStateManager;
-    private ConversationNode currentNode;
     private CharacterDatabase characterDatabase;
     private Character currentCharacter;
     private Dialogue currentDialogue;
