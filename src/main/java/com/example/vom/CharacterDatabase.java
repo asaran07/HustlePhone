@@ -10,18 +10,12 @@ public class CharacterDatabase {
     public CharacterDatabase() {
         characterList = new HashMap<>();
         makeCharacters();
-        addDialogues();
     }
 
     private void makeCharacters() {
         Character mike = new Character("Mike", "123");
         characterList.put(mike.getPhoneNumber(), mike);
     }
-
-    private void addDialogues() {
-        Character mike = characterList.get("123");
-    }
-
 
     public Character getCharacter(String phoneNumber) {
         return characterList.get(phoneNumber);

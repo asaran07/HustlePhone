@@ -104,14 +104,12 @@ public class GameController implements Initializable, StateChangeListener {
         inGameUIGroup.forEach(this::makeVisible);
         uiAnimationPlayerContract.startMultipleFadeAnimations(Arrays
                 .asList(replyPane, convoPane, convoLabel), false, R.speed.NORMAL);
-
-        coreGameManagerContract.loadDialogues("src/main/java/dialogues/dfile.json");
-        processDialogue("start_convo");
-        gameStateManager.changeState(GameState.IN_CALL, UIState.NO_CHANGE);
+        //processDialogueText("start_convo");
+        //gameStateManager.changeState(GameState.IN_CALL, UIState.NO_CHANGE);
         callMikeButton.setVisible(false);
     }
 
-    public void processDialogue(String dialogueID) throws IOException {
+    public void processDialogueText(String dialogueID) throws IOException {
         System.out.println("processing dialogue");
         Dialogue currentDialogue = displayDialogue(dialogueID);
         List<Option> options = currentDialogue.getOptions();
@@ -125,7 +123,7 @@ public class GameController implements Initializable, StateChangeListener {
             uiAnimationPlayerContract.startFadeAnimation(replyButton1, false, R.speed.NORMAL);
             replyButton1.setOnAction(e -> {
                 try {
-                    processDialogue(displayableOptions.getFirst().getNextDialogueID());
+                    processDialogueText(displayableOptions.getFirst().getNextDialogueID());
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -139,7 +137,7 @@ public class GameController implements Initializable, StateChangeListener {
             uiAnimationPlayerContract.startFadeAnimation(replyButton2, false, R.speed.NORMAL);
             replyButton2.setOnAction(e -> {
                 try {
-                    processDialogue(displayableOptions.get(1).getNextDialogueID());
+                    processDialogueText(displayableOptions.get(1).getNextDialogueID());
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -182,7 +180,7 @@ public class GameController implements Initializable, StateChangeListener {
 
     public void callMikeButtonAction() throws IOException {
         System.out.println("showing call mike button");
-        processDialogue("start_convo2");
+        processDialogueText("start_convo2");
     }
 
     private void endConversation() throws IOException {
@@ -244,6 +242,7 @@ public class GameController implements Initializable, StateChangeListener {
         switch (theEvent.uiState()) {
             case UIState.ON_TITLE_SCREEN -> prepareTitleScreen();
             case UIState.ON_GAME_SCREEN -> prepareInGameScreen();
+            case UIState.PROCESS_DIALOGUE -> processDialogueText("dialogue_id");
         }
     }
 

@@ -6,14 +6,18 @@ import java.util.HashMap;
 public class Character {
     private String name;
     private HashMap<String, ArrayList<Dialogue>> dialogueSet;
-    private HashMap<String, Dialogue> dialogue;
+    private HashMap<String, Dialogue> dialogues;
     private String phoneNumber;
 
     public Character(String theName, String thePhoneNumber) {
         this.name = theName;
         this.phoneNumber = thePhoneNumber;
-        dialogue = new HashMap<>();
+        dialogues = new HashMap<>();
         dialogueSet = new HashMap<>();
+    }
+
+    public void setDialogues(HashMap<String, Dialogue> dialogues) {
+        this.dialogues = dialogues;
     }
 
     public String getName() {
@@ -44,11 +48,11 @@ public class Character {
     }
 
     public Dialogue getDialogue(String key) {
-        return dialogue.get(key);
+        return dialogues.get(key);
     }
 
     public void addDialogue(String key, Dialogue dialogue) {
-        this.dialogue.put(key, dialogue);
+        this.dialogues.put(key, dialogue);
     }
 
 
