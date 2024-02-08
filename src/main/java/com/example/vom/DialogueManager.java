@@ -14,4 +14,7 @@ public class DialogueManager {
     public HashMap<String, Dialogue> getAllDialogues() {
         return dialogues;
     }
+    public Dialogue getDialogue(String dialogueId) {
+        return dialogues.get(dialogueId);
+    }
 }

@@ -110,7 +110,7 @@ public class GameController implements Initializable, StateChangeListener {
     }
 
     public void processDialogueText(String dialogueID) throws IOException {
-        System.out.println("processing dialogue");
+        //System.out.println("processing dialogue");
         Dialogue currentDialogue = displayDialogue(dialogueID);
         List<Option> options = currentDialogue.getOptions();
         List<Option> displayableOptions = options.stream()
@@ -231,7 +231,6 @@ public class GameController implements Initializable, StateChangeListener {
         });
     }
 
-
     /**
      * Handles the change of GameState to perform necessary UI updates.
      *
@@ -244,6 +243,10 @@ public class GameController implements Initializable, StateChangeListener {
             case UIState.ON_GAME_SCREEN -> prepareInGameScreen();
             case UIState.PROCESS_DIALOGUE -> processDialogueText("dialogue_id");
         }
+    }
+
+    private void processDialogue() {
+
     }
 
 }
