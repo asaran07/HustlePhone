@@ -3,18 +3,20 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: black; -fx-border-color: white; -fx-border-width: 4;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.vom.GameController">
+<AnchorPane id="root" fx:id="mainAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.vom.GameController">
     <children>
-        <Pane fx:id="convoPane" layoutX="640.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="640.0" style="-fx-border-color: white; -fx-border-width: 5;">
+        <Pane id="pane" fx:id="convoPane" layoutX="640.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="640.0" stylesheets="@style.css">
          <children>
-            <Label fx:id="convoLabel" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="621.0" textAlignment="CENTER" textFill="#cccccc" wrapText="true">
+            <Label id="label" fx:id="convoLabel" alignment="CENTER" layoutX="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="621.0" stylesheets="@style.css" textAlignment="CENTER" textFill="#cccccc" wrapText="true">
                <font>
                   <Font size="36.0" />
                </font>
@@ -23,9 +25,9 @@
                </padding>
             </Label>
          </children></Pane>
-        <Pane fx:id="titleScreenPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" visible="false">
+        <Pane id="pane" fx:id="titleScreenPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@style.css" visible="false">
          <children>
-            <Label alignment="CENTER" layoutX="491.0" layoutY="283.0" prefHeight="78.0" prefWidth="321.0" text="phone game" textAlignment="CENTER" wrapText="true">
+            <Label id="label" alignment="CENTER" layoutX="470.0" layoutY="263.0" prefHeight="78.0" prefWidth="321.0" stylesheets="@style.css" text="phone game" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font name="System Bold" size="48.0" />
                </font>
@@ -46,7 +48,7 @@
                   </LinearGradient>
                </textFill>
             </Label>
-            <Button fx:id="startButton" alignment="CENTER" layoutX="594.0" layoutY="328.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="start" textAlignment="CENTER">
+            <Button id="button" fx:id="startButton" alignment="CENTER" layoutX="594.0" layoutY="328.0" mnemonicParsing="false" style="-fx-background-color: transparent;" stylesheets="@style.css" text="start" textAlignment="CENTER">
                <font>
                   <Font name="System Italic" size="36.0" />
                </font>
@@ -69,20 +71,31 @@
             </Button>
          </children>
         </Pane>
-      <Pane fx:id="replyPane" layoutX="640.0" layoutY="360.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="640.0" style="-fx-border-color: white; -fx-border-width: 5;">
+      <Pane id="pane" fx:id="replyPane" layoutX="640.0" layoutY="360.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="640.0" stylesheets="@style.css">
          <children>
-            <Button fx:id="replyButton1" layoutX="36.0" layoutY="23.0" mnemonicParsing="false" prefHeight="150.0" prefWidth="581.0">
+            <Button id="button" fx:id="replyButton1" layoutX="36.0" layoutY="23.0" mnemonicParsing="false" prefHeight="150.0" prefWidth="581.0" stylesheets="@style.css" visible="false">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button fx:id="replyButton2" layoutX="36.0" layoutY="186.0" mnemonicParsing="false" prefHeight="150.0" prefWidth="581.0">
+            <Button id="button" fx:id="replyButton2" layoutX="36.0" layoutY="186.0" mnemonicParsing="false" prefHeight="150.0" prefWidth="581.0" stylesheets="@style.css" visible="false">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
          </children></Pane>
-      <Button fx:id="callMikeButton" layoutX="378.0" layoutY="71.0" mnemonicParsing="false" onAction="#callMikeButtonAction" prefHeight="39.0" prefWidth="153.0" text="mike" visible="false">
+      <Pane id="pane" fx:id="infoCallPane" layoutX="128.0" layoutY="42.0" prefHeight="360.0" prefWidth="363.0" stylesheets="@style.css">
+         <children>
+            <Label id="label" layoutX="125.0" layoutY="163.0" prefHeight="34.0" prefWidth="113.0" stylesheets="@style.css" text="call in progress" textAlignment="CENTER" />
+            <Circle fx:id="callStatusCircle" fill="#2ac96f" layoutX="336.0" layoutY="23.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+            <TextField id="text-field" fx:id="phNumberField" alignment="CENTER" layoutX="58.0" layoutY="297.0" prefHeight="39.0" prefWidth="183.0" promptText="phone number" stylesheets="@style.css" />
+            <Button id="button" fx:id="dialButton" layoutX="261.0" layoutY="297.0" mnemonicParsing="false" onAction="#dialButtonAction" prefHeight="42.0" prefWidth="0.0" stylesheets="@style.css">
+               <font>
+                  <Font name="Chalkboard Bold" size="13.0" />
+               </font>
+            </Button>
+         </children></Pane>
+      <Button id="button" fx:id="callMikeButton" layoutX="233.0" layoutY="519.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="153.0" stylesheets="@style.css" text="mike">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>

@@ -4,5 +4,6 @@ public enum UIState {
     ON_TITLE_SCREEN,
     ON_GAME_SCREEN,
     NO_CHANGE,
-    PROCESS_DIALOGUE
+    STARTING_CALL,
+    ENDING_CALL
 }

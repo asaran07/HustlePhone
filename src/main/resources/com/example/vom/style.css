@@ -1,15 +1,42 @@
-.button {
-    -fx-background-color: #0078d7;
-    -fx-text-fill: white;
-    -fx-border-color: white;
-    -fx-border-width: 2;
-    -fx-font-size: 14px;
-    -fx-padding: 10px 20px;
-    -fx-border-radius: 20;
-    -fx-background-radius: 20;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+#root {
+    -fx-background-color: #2a2a2a; /* Dark background for the whole scene */
 }
 
-.button:hover {
-    -fx-background-color: #0053a4;
+#pane {
+    -fx-background-color: #393939; /* Slightly lighter shade for the pane */
+    -fx-padding: 20; /* Padding around the pane */
+    -fx-border-color: #515151; /* Border color for the pane */
+    -fx-border-width: 2; /* Border width */
+}
+
+#button {
+    -fx-background-color: #5c5c5c;
+    -fx-text-fill: #dcdcdc;
+    -fx-font-size: 16px;
+    -fx-padding: 10 20;
+    -fx-border-color: #767676;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+#button:hover {
+    -fx-background-color: #6e6e6e; /* Change the background color on hover */
+    -fx-cursor: hand; /* Change cursor to hand symbol */
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.8) , 10, 0 , 0 , 0 ); /* Add shadow effect */
+}
+
+#text-field {
+    -fx-background-color: #5c5c5c;
+    -fx-text-fill: #dcdcdc;
+    -fx-font-size: 16px;
+    -fx-padding: 10;
+    -fx-border-color: #767676;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+}
+
+#label {
+    -fx-text-fill: #dcdcdc;
+    -fx-font-size: 18px;
 }

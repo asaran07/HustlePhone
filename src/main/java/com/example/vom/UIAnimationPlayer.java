@@ -37,6 +37,7 @@ public class UIAnimationPlayer implements UIAnimationPlayerContract {
     }
 
     public void startTypewriterEffect(final String theText, Timeline theTimeline, Label theLabel) {
+        theLabel.setText("");
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < theText.length(); i++) {
             char nextLetter = theText.charAt(i);

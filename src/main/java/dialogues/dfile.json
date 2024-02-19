@@ -5,11 +5,13 @@
       "options": [
         {
           "text": "Hello?",
-          "next": "said_Hello"
+          "next": "said_Hello",
+          "action" : ""
         },
         {
           "text": "Who are you?",
-          "next": "asked_whoAreYou"
+          "next": "asked_whoAreYou",
+          "action" : ""
         }
       ]
     },
@@ -18,11 +20,13 @@
       "options": [
         {
           "text": "No I was just- wait do I know you?",
-          "next": "end_convo"
+          "next": "end_convo",
+          "action" : ""
         },
         {
           "text": "Yeah I forgor :skull emoji:",
-          "next": "end_convo"
+          "next": "end_convo",
+          "action" : ""
         }
       ]
     },
@@ -31,7 +35,8 @@
       "options": [
         {
           "text": "Sorry, I don't recall.",
-          "next": "end_convo"
+          "next": "end_convo",
+          "action" : ""
         }
       ]
     },
@@ -39,6 +44,7 @@
       "text": "Well, try to remember next time, kid. Anyways, here's my number.",
       "options": [
         {
+          "text": "",
           "action": "showCallMikeButton"
         }
       ]
@@ -48,21 +54,33 @@
       "options": [
         {
           "text": "I just wanted to hear your skibidi voice",
-          "next": "saidSkibidiVoice"
+          "next": "saidSkibidiVoice",
+          "action" : ""
         },
         {
           "text": "Oh sorry I just wanted to see if this button worked haha",
-          "next": "saidWantedToCheck"
+          "next": "saidWantedToCheck",
+          "action" : ""
         }
       ]
     },
     "saidSkibidiVoice": {
       "text": "Oh you one of them skibidi toilet kids...",
-      "options": []
+      "options": [
+        {
+          "text": "",
+          "action" : "end_call"
+        }
+      ]
     },
     "saidWantedToCheck": {
       "text": "Well now you know.",
-      "options": []
+      "options": [
+        {
+          "text": "",
+          "action" : "end_call"
+        }
+      ]
     }
   }
 }
